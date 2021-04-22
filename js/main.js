@@ -36,7 +36,7 @@ $(document).ready(() => {
         centerPadding: '100px',
         slidesToShow: 1,
         useTransform: true,
-        infinite: false,
+        infinite: true,
         variableWidth: true,
         arrows: true,
         dots: true,
@@ -59,7 +59,7 @@ $(document).ready(() => {
         centerPadding: '100px',
         slidesToShow: 1,
         useTransform: true,
-        infinite: false,
+        infinite: true,
         variableWidth: true,
         arrows: true,
         dots: true,
@@ -82,7 +82,7 @@ $(document).ready(() => {
         centerPadding: '100px',
         slidesToShow: 1,
         useTransform: true,
-        infinite: false,
+        infinite: true,
         variableWidth: true,
         arrows: true,
         dots: true,
@@ -105,7 +105,7 @@ $(document).ready(() => {
         centerPadding: '100px',
         slidesToShow: 1,
         useTransform: true,
-        infinite: false,
+        infinite: true,
         variableWidth: true,
         arrows: true,
         dots: true,
@@ -128,7 +128,7 @@ $(document).ready(() => {
         centerPadding: '100px',
         slidesToShow: 1,
         useTransform: true,
-        infinite: false,
+        infinite: true,
         variableWidth: true,
         arrows: true,
         dots: true,
@@ -157,7 +157,6 @@ $(document).ready(() => {
         let angle = arc * (i + 2);
         let x = radius * Math.cos(angle);
         let y = radius * Math.sin(angle);
-        if (radius > 100) {
             $(items[i]).css('bottom', 'calc(50% - ' + y + 'px - 52px)');
 
             if ($(items[i]).hasClass('property-right')) {
@@ -165,21 +164,11 @@ $(document).ready(() => {
             } else {
                 $(items[i]).css('right', 'calc(50% - ' + x + 'px + 38px)');
             }
-        } else {
-            $(items[i]).css('bottom', 'calc(50% - ' + y + 'px - 25px)');
-
-            if ($(items[i]).hasClass('property-right')) {
-                $(items[i]).css('left', 'calc(50% + ' + x + 'px + 18px)');
-            } else {
-                $(items[i]).css('right', 'calc(50% - ' + x + 'px + 18px)');
-            }
-        }
     }
 
     wow = new WOW(
         {
             animateClass: 'animate__animated',
-
         }
     )
     wow.init();
@@ -195,15 +184,27 @@ $(document).ready(() => {
         }
     });
 
+
     $('#order').click(() => {
-        $('.form_item').addClass('open');
+        if ($('.form_item').hasClass('open')) {
+            $('.form_item').removeClass('open');
+        } else {
+            $('.form_item').addClass('open');
+        }
     });
 
     $('.select_item').click((e) => {
         let choice = $(e.target).text();
-        console.log(choice);
         $('#order').val(choice);
         $('.form_item').removeClass('open');
+    });
+
+    $('#popup-container, #popup-order, #form-order').click((e) => {
+        if (e.target.id === 'popup-container' || e.target.id === 'popup-order' || e.target.id === 'form-order') {
+            if ($('.form_item').hasClass('open')) {
+                $('.form_item').removeClass('open');
+            }
+        }
     });
 
 
@@ -271,6 +272,17 @@ $(document).ready(() => {
 
     $('#header .menu-item, #header-close2').click(() => {
         $('#header').removeClass('menu-open');
+    })
+
+    $('#collect-video-play img').click(() => {
+        $('#collect-video-play').hide();
+        $('#collect-video .circle-big').hide();
+        let video = $('#collect-video iframe');
+        video.show();
+        var videoURL = video.prop('src');
+        videoURL += "?autoplay=1";
+        video.prop('src',videoURL);
+
     })
 
 })
